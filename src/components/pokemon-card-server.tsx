@@ -1,7 +1,7 @@
-import { use } from 'react';
-import type { Pokemon } from '../types/pokemon';
-import { getPokemonWithJapaneseName } from '../services/pokemon';
-import { PokemonCardView } from './pokemon-card-view';
+import { use } from "react";
+import type { Pokemon } from "../types/pokemon";
+import { getPokemonWithJapaneseName } from "../services/pokemon";
+import { PokemonCardView } from "./pokemon-card-view";
 
 interface PokemonCardServerProps {
   pokemon: Pokemon;

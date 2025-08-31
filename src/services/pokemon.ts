@@ -26,20 +26,20 @@ export async function getPokemonSpecies(nameOrId: string | number): Promise<Poke
   return response.json();
 }
 
-export async function getPokemonWithJapaneseName(nameOrId: string | number): Promise<PokemonWithJapaneseName> {
-  const [pokemonDetail, pokemonSpecies] = await Promise.all([
+export function getPokemonWithJapaneseName(nameOrId: string | number): Promise<PokemonWithJapaneseName> {
+  return Promise.all([
     getPokemonDetail(nameOrId),
     getPokemonSpecies(nameOrId)
-  ]);
+  ]).then(([pokemonDetail, pokemonSpecies]) => {
+    const japaneseName = pokemonSpecies.names.find(name => 
+      name.language.name === 'ja-Hrkt' || name.language.name === 'ja'
+    )?.name || pokemonDetail.name;
 
-  const japaneseName = pokemonSpecies.names.find(name => 
-    name.language.name === 'ja-Hrkt' || name.language.name === 'ja'
-  )?.name || pokemonDetail.name;
-
-  return {
-    ...pokemonDetail,
-    japaneseName
-  };
+    return {
+      ...pokemonDetail,
+      japaneseName
+    };
+  });
 }
 
 export async function searchPokemon(query: string, limit: number = 151): Promise<PokemonListResponse> {

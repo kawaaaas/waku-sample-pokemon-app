@@ -1,7 +1,8 @@
-import { PokemonListServer } from '../components/pokemon-list-server';
-import { Suspense } from 'react';
-import { LoadingFallback } from '../components/loading-fallback';
+import { PokemonListServer } from "../components/pokemon-list-server";
+import { Suspense } from "react";
+import { LoadingFallback } from "../components/loading-fallback";
 
+// RSC enables async component implementation
 export default async function HomePage() {
   const data = await getData();
 
@@ -17,7 +18,7 @@ export default async function HomePage() {
 
 const getData = async () => {
   const data = {
-    title: 'Pokemon Pokedex - Waku App',
+    title: "Pokemon Pokedex - Waku App",
   };
 
   return data;
@@ -25,6 +26,6 @@ const getData = async () => {
 
 export const getConfig = async () => {
   return {
-    render: 'static',
+    render: "static",
   } as const;
 };

@@ -1,8 +1,9 @@
-import { PokemonSearchWrapperServer } from "../components/pokemon-search-wrapper-server";
+import { PokemonSearchWrapper } from "../components/pokemon-search-wrapper";
 import { Link } from "waku";
 import { Suspense } from "react";
 import { LoadingFallback } from "../components/loading-fallback";
 
+// RSC enables async component implementation
 export default async function SearchPage() {
   const data = await getData();
 
@@ -17,7 +18,7 @@ export default async function SearchPage() {
         </div>
         <h1 className="text-4xl font-bold text-center mb-8">Search Pokemon</h1>
         <Suspense fallback={<LoadingFallback count={0} />}>
-          <PokemonSearchWrapperServer hideInitialResults />
+          <PokemonSearchWrapper hideInitialResults />
         </Suspense>
       </div>
     </div>

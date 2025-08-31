@@ -4,14 +4,14 @@ import { useState, Suspense } from "react";
 import { PokemonSearch } from "./pokemon-search";
 import { LoadingSkeleton } from "./loading-skeleton";
 import { Pokemon } from "../types/pokemon";
-import { PokemonCardServer } from "./pokemon-card-server";
-import { getPokemonWithJapaneseName } from "../services/pokemon";
 import { PokemonCardClient } from "./pokemon-card-client";
+import { getPokemonWithJapaneseName } from "../services/pokemon";
 
 interface PokemonSearchWrapperProps {
   pokemon: Pokemon[];
 }
 
+// Use CC for user input handling
 export function PokemonSearchWrapperClient({
   pokemon,
 }: PokemonSearchWrapperProps) {
@@ -45,6 +45,8 @@ export function PokemonSearchWrapperClient({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {filteredPokemon.map((p) => {
+              // Prevent infinite Promise generation during renders by passing Promise
+              // TODO: Transfer Promise generation to SC
               const pokemonDetailPromise = getPokemonWithJapaneseName(p.name);
               return (
                 <Suspense key={p.id} fallback={<LoadingSkeleton />}>

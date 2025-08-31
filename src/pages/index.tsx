@@ -1,6 +1,4 @@
-import { Link } from 'waku';
-
-import { Counter } from '../components/counter';
+import { PokemonListServer } from '../components/pokemon-list-server';
 
 export default async function HomePage() {
   const data = await getData();
@@ -8,21 +6,14 @@ export default async function HomePage() {
   return (
     <div>
       <title>{data.title}</title>
-      <h1 className="text-4xl font-bold tracking-tight">{data.headline}</h1>
-      <p>{data.body}</p>
-      <Counter />
-      <Link to="/about" className="mt-4 inline-block underline">
-        About page
-      </Link>
+      <PokemonListServer />
     </div>
   );
 }
 
 const getData = async () => {
   const data = {
-    title: 'Waku',
-    headline: 'Waku',
-    body: 'Hello world!',
+    title: 'Pokemon Pokedex - Waku App',
   };
 
   return data;

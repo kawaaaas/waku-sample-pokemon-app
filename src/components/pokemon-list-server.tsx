@@ -1,27 +1,13 @@
-import type { Pokemon } from "../types/pokemon";
+import { use, Suspense } from "react";
 import { getPokemonList } from "../services/pokemon";
 import { PokemonCardServer } from "./pokemon-card-server";
 import { Link } from 'waku';
+import { LoadingSkeleton } from "./loading-skeleton";
 
-export async function PokemonListServer() {
-  let pokemon: Pokemon[] = [];
-  let error: string | null = null;
-
-  try {
-    const data = await getPokemonList(151);
-    pokemon = data.results;
-  } catch (e) {
-    error = e instanceof Error ? e.message : "Failed to fetch Pokemon list";
-  }
-
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8">Pokemon Pokedex</h1>
-        <div className="text-center text-red-500 py-8">Error: {error}</div>
-      </div>
-    );
-  }
+export function PokemonListServer() {
+  const pokemonListPromise = getPokemonList(151);
+  const data = use(pokemonListPromise);
+  const pokemon = data.results;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -39,7 +25,9 @@ export async function PokemonListServer() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {pokemon.map((p) => (
-          <PokemonCardServer key={p.name} pokemon={p} />
+          <Suspense key={p.name} fallback={<LoadingSkeleton />}>
+            <PokemonCardServer pokemon={p} />
+          </Suspense>
         ))}
       </div>
     </div>

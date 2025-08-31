@@ -1,4 +1,6 @@
 import { PokemonListServer } from '../components/pokemon-list-server';
+import { Suspense } from 'react';
+import { LoadingFallback } from '../components/loading-fallback';
 
 export default async function HomePage() {
   const data = await getData();
@@ -6,7 +8,9 @@ export default async function HomePage() {
   return (
     <div>
       <title>{data.title}</title>
-      <PokemonListServer />
+      <Suspense fallback={<LoadingFallback />}>
+        <PokemonListServer />
+      </Suspense>
     </div>
   );
 }
